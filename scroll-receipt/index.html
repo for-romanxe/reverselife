@@ -1,0 +1,314 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>스크롤 영수증 — 오늘 엄지로 쓴 시간, 영수증으로 드릴게요</title>
+<style>
+  :root{
+    --ink:#1a1714;
+    --paper:#fdfbf5;
+    --mart:#0f6b4f;
+    --alert:#d43d2a;
+    --mustard:#f2b705;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html,body{height:100%}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:var(--ink);
+    color:var(--paper);
+    display:flex;align-items:center;justify-content:center;
+    gap:56px;padding:24px;
+    background-image:radial-gradient(rgba(255,255,255,.05) 1px, transparent 1px);
+    background-size:22px 22px;
+  }
+
+  /* ── 데스크톱용 콘셉트 패널 (심사위원 안내) ── */
+  .pitch{max-width:330px}
+  .pitch .badge{
+    display:inline-block;background:var(--mustard);color:var(--ink);
+    font-weight:800;font-size:13px;padding:4px 10px;margin-bottom:14px;
+    transform:rotate(-2deg);
+  }
+  .pitch h1{font-size:34px;line-height:1.25;font-weight:900;margin-bottom:14px}
+  .pitch h1 em{font-style:normal;color:var(--mustard)}
+  .pitch p{font-size:14px;line-height:1.75;color:#cfc9bd;margin-bottom:12px}
+  .pitch .how{
+    border-left:3px solid var(--mustard);padding-left:12px;
+    font-size:13px;color:#a49d8f;line-height:1.7;
+  }
+
+  /* ── 폰 프레임 ── */
+  .phone{
+    width:min(390px, 100vw - 32px);
+    height:min(760px, 100vh - 48px);
+    background:#000;border-radius:38px;border:6px solid #2c2c2c;
+    overflow:hidden;position:relative;flex-shrink:0;
+    box-shadow:0 30px 80px rgba(0,0,0,.6);
+  }
+  .screen{position:absolute;inset:0;display:flex;flex-direction:column}
+
+  /* ── 인트로 ── */
+  #intro{
+    background:var(--mart);
+    align-items:center;justify-content:center;text-align:center;padding:34px;
+  }
+  #intro .mart-sign{
+    background:var(--paper);color:var(--mart);
+    font-weight:900;font-size:15px;letter-spacing:4px;
+    padding:7px 18px;margin-bottom:26px;
+  }
+  #intro h2{font-size:33px;font-weight:900;line-height:1.3;color:#fff;margin-bottom:16px}
+  #intro h2 .u{box-shadow:inset 0 -12px 0 rgba(242,183,5,.55)}
+  #intro p{font-size:14.5px;line-height:1.8;color:#d8ecdf;margin-bottom:30px;word-break:keep-all}
+  #intro button{
+    font-family:inherit;font-size:17px;font-weight:800;
+    background:var(--ink);color:#fff;border:0;padding:16px 30px;cursor:pointer;
+  }
+  #intro button:active{transform:translateY(2px)}
+  #intro .hint{margin-top:14px;font-size:12px;color:#bcd9c6}
+
+  /* ── 피드 ── */
+  #feedScreen{background:#000}
+  .meter{
+    background:var(--ink);border-bottom:2px dashed #4a443b;
+    display:flex;justify-content:space-around;align-items:center;
+    padding:12px 6px;z-index:5;
+  }
+  .meter .cell{text-align:center}
+  .meter .num{
+    font-family:"Courier New",monospace;font-weight:700;font-size:19px;
+    color:var(--mustard);font-variant-numeric:tabular-nums;
+  }
+  .meter .lbl{font-size:10.5px;color:#8d8678;margin-top:2px;letter-spacing:1px}
+  #feed{flex:1;overflow-y:auto;scroll-snap-type:y mandatory;scrollbar-width:none}
+  #feed::-webkit-scrollbar{display:none}
+  .card{
+    height:100%;scroll-snap-align:start;
+    display:flex;flex-direction:column;justify-content:center;align-items:center;
+    text-align:center;padding:30px;position:relative;
+  }
+  .card .emoji{font-size:84px;margin-bottom:22px}
+  .card .cap{font-size:21px;font-weight:800;line-height:1.45;color:#fff;word-break:keep-all}
+  .card .meta{position:absolute;bottom:26px;left:24px;text-align:left;font-size:12.5px;color:rgba(255,255,255,.85)}
+  .card .meta b{display:block;font-size:13.5px;margin-bottom:3px}
+  .printBtn{
+    position:absolute;right:14px;bottom:20px;z-index:6;
+    font-family:inherit;font-size:14.5px;font-weight:800;
+    background:var(--paper);color:var(--ink);border:0;
+    padding:13px 16px;cursor:pointer;
+    box-shadow:0 4px 0 rgba(0,0,0,.45);
+  }
+  .printBtn:active{transform:translateY(2px);box-shadow:0 2px 0 rgba(0,0,0,.45)}
+
+  /* ── 영수증 ── */
+  #receiptScreen{background:#35322c;overflow-y:auto;align-items:center;padding:0 20px 26px}
+  .receipt{
+    width:100%;max-width:315px;background:var(--paper);color:var(--ink);
+    font-family:"Courier New",monospace;font-size:12.8px;line-height:1.55;
+    padding:20px 18px 26px;margin-top:0;
+    clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),95% 100%,90% calc(100% - 8px),85% 100%,80% calc(100% - 8px),75% 100%,70% calc(100% - 8px),65% 100%,60% calc(100% - 8px),55% 100%,50% calc(100% - 8px),45% 100%,40% calc(100% - 8px),35% 100%,30% calc(100% - 8px),25% 100%,20% calc(100% - 8px),15% 100%,10% calc(100% - 8px),5% 100%,0 calc(100% - 8px));
+    animation:printout .9s steps(14) both;
+  }
+  @keyframes printout{from{transform:translateY(-104%)}to{transform:translateY(0)}}
+  .receipt .center{text-align:center}
+  .receipt .store{font-size:17px;font-weight:700;letter-spacing:2px}
+  .receipt hr{border:0;border-top:1px dashed #9a938a;margin:10px 0}
+  .receipt .row{display:flex;justify-content:space-between;gap:8px}
+  .receipt .row span:last-child{white-space:nowrap}
+  .receipt .big{font-size:15px;font-weight:700}
+  .receipt .red{color:var(--alert);font-weight:700}
+  .receipt .aiTalk{
+    background:#efe9db;padding:9px 10px;margin:10px 0;
+    font-family:inherit;font-size:12.5px;line-height:1.6;word-break:keep-all;
+  }
+  .receipt .aiTalk b{display:block;font-family:"Courier New",monospace;margin-bottom:4px}
+  .barcode{
+    height:44px;margin:12px 0 4px;
+    background:repeating-linear-gradient(90deg,var(--ink) 0 2px,transparent 2px 5px,var(--ink) 5px 6px,transparent 6px 10px,var(--ink) 10px 13px,transparent 13px 15px);
+  }
+  .rActions{display:flex;gap:10px;margin:18px 0 8px;width:100%;max-width:315px}
+  .rActions button{
+    flex:1;font-family:inherit;font-size:13.5px;font-weight:800;
+    border:0;padding:13px 6px;cursor:pointer;
+  }
+  #againBtn{background:#57534a;color:#fff}
+  #subBtn{background:var(--mustard);color:var(--ink)}
+  #toast{
+    position:absolute;left:50%;bottom:30px;transform:translateX(-50%);
+    background:var(--ink);color:var(--paper);font-size:13px;font-weight:700;
+    padding:12px 18px;white-space:nowrap;opacity:0;transition:opacity .3s;z-index:9;
+    border:1px solid #57534a;
+  }
+
+  .hidden{display:none!important}
+  @media (max-width:900px){.pitch{display:none}body{padding:8px}}
+</style>
+
+<aside class="pitch">
+  <span class="badge">제1회 일상뒤집기 공모전 · 프로토타입</span>
+  <h1>매일 2시간을 쓰고<br>영수증 한 장<br><em>못 받아봤다면?</em></h1>
+  <p>숏폼은 시간을 "결제"하게 만들지만 내역서를 주지 않습니다. <b>스크롤 영수증</b>은 오늘 엄지로 쓴 시간을 편의점 영수증처럼 발행해, 무의식적 소비를 의식적 선택으로 뒤집습니다.</p>
+  <p class="how">체험 방법 ① 피드에 입장해 평소처럼 스크롤 → ② 위쪽 미터기가 올라갑니다 → ③ [영수증 뽑기]를 누르면 AI가 오늘의 소비 내역을 정산해 줍니다.</p>
+</aside>
+
+<div class="phone">
+
+  <div id="intro" class="screen">
+    <div class="mart-sign">SCROLL MART 24</div>
+    <h2>시간에도<br><span class="u">영수증</span>이<br>필요하니까</h2>
+    <p>숏폼 앱은 당신의 시간을 가져가면서 영수증을 주지 않습니다.<br>오늘은 한 장 받아 보세요.</p>
+    <button id="enterBtn">피드 입장하기 →</button>
+    <div class="hint">* 실제 숏폼 앱을 흉내 낸 체험용 피드입니다</div>
+  </div>
+
+  <div id="feedScreen" class="screen hidden">
+    <div class="meter">
+      <div class="cell"><div class="num" id="mTime">00:00</div><div class="lbl">쓴 시간</div></div>
+      <div class="cell"><div class="num" id="mDist">0.0m</div><div class="lbl">엄지 이동거리</div></div>
+      <div class="cell"><div class="num" id="mCnt">0개</div><div class="lbl">본 콘텐츠</div></div>
+    </div>
+    <div id="feed"></div>
+    <button class="printBtn" id="printBtn">🧾 영수증 뽑기</button>
+  </div>
+
+  <div id="receiptScreen" class="screen hidden">
+    <div class="receipt" id="receipt"></div>
+    <div class="rActions">
+      <button id="againBtn">더 스크롤하기</button>
+      <button id="subBtn">매일 밤 영수증 받기</button>
+    </div>
+  </div>
+
+  <div id="toast"></div>
+</div>
+
+<script>
+const CONTENTS = [
+  ["🐶","강아지가 주인 몰래 침대에서 춤춤 ㅋㅋㅋ","@멍멍일상","좋아요 12.4만"],
+  ["😱","충격!! 이 습관이 당신의 뇌를 망칩니다","@1분상식","좋아요 8.1만"],
+  ["🍜","편의점 재료로 3분 마라탕 만들기","@자취요리왕","좋아요 22.9만"],
+  ["💪","헬스장에서 절대 하면 안 되는 행동 TOP3","@3대500형","좋아요 5.6만"],
+  ["🤣","교수님 성대모사 하다가 걸린 대학생","@캠퍼스툰","좋아요 31.2만"],
+  ["✨","이걸 알면 인생이 바뀝니다 (진짜임)","@동기부여맨","좋아요 9.8만"],
+  ["🐱","고양이가 택배 상자에 들어가려고 3일 노력한 결과","@냥냥펀치","좋아요 44.1만"],
+  ["📱","아이폰 숨겨진 기능 99%가 모름","@꿀팁저장소","좋아요 15.3만"],
+  ["🍦","월드콘 거꾸로 먹으면 생기는 일","@푸드실험실","좋아요 7.7만"],
+  ["🎮","이 게임 하다가 밤샌 사람 손","@겜창인생","좋아요 18.5만"],
+  ["😭","알바 첫날 사장님이 시킨 일","@알바생공감","좋아요 26.8만"],
+  ["🔥","지금 안 보면 후회하는 꿀정보","@정보요정","좋아요 6.2만"],
+  ["🐹","햄스터가 볼주머니에 숨긴 것들","@햄찌월드","좋아요 38.9만"],
+  ["🤯","수학 선생님도 틀리는 문제","@수능킬러","좋아요 11.4만"],
+  ["🍗","치킨 반마리 더 받는 법 (점주 비추)","@먹튜브","좋아요 29.3만"],
+];
+const COLORS = ["#7a2eb8","#b83a2e","#20659c","#0f6b4f","#a8621c","#5b2e8f","#8f2e50","#2e6b8f"];
+
+const $ = id => document.getElementById(id);
+const feed = $("feed");
+
+let idx = 0, seconds = 0, px = 0, timer = null;
+
+function addCards(n){
+  for(let i=0;i<n;i++){
+    const c = CONTENTS[idx % CONTENTS.length];
+    const div = document.createElement("div");
+    div.className = "card";
+    div.style.background = COLORS[idx % COLORS.length];
+    div.innerHTML = `<div class="emoji">${c[0]}</div><div class="cap">${c[1]}</div>
+      <div class="meta"><b>${c[2]}</b>${c[3]} · 공유 · 저장</div>`;
+    feed.appendChild(div);
+    idx++;
+  }
+}
+
+function fmtTime(s){
+  return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0");
+}
+const meters = () => px * 0.0002646;           // CSS px → m
+const seen   = () => Math.min(idx, Math.floor(feed.scrollTop / feed.clientHeight) + 1);
+
+function updateMeter(){
+  $("mTime").textContent = fmtTime(seconds);
+  $("mDist").textContent = meters().toFixed(1)+"m";
+  $("mCnt").textContent  = seen()+"개";
+}
+
+$("enterBtn").onclick = () => {
+  $("intro").classList.add("hidden");
+  $("feedScreen").classList.remove("hidden");
+  addCards(6);
+  timer = setInterval(()=>{ seconds++; updateMeter(); }, 1000);
+};
+
+let lastTop = 0;
+feed.addEventListener("scroll", ()=>{
+  px += Math.abs(feed.scrollTop - lastTop);
+  lastTop = feed.scrollTop;
+  if(feed.scrollTop > feed.scrollHeight - feed.clientHeight*3) addCards(4);
+  updateMeter();
+});
+
+/* ── AI 정산 (프로토타입: 규칙 기반 시뮬레이션) ── */
+function aiComment(sec, m, cnt){
+  if(cnt === 0) return "스크롤 없이 나가시네요. 오늘 지갑은 지켰습니다. 내일도 이 손맛을 기억하세요.";
+  if(sec < 40)  return `${cnt}개를 보셨는데, 방금 본 것 중 내일 기억날 게 있을까요? 짧게 끊으신 건 잘하셨어요. 이 정도 절제면 적립왕입니다.`;
+  if(sec < 120) return `${fmtTime(sec)} 동안 ${cnt}개. 하나당 평균 ${Math.round(sec/cnt)}초씩 '결제'하셨네요. 재미는 있었는데, 장바구니에 남은 건 없죠?`;
+  return `오늘 이 속도면 하루 2시간, 1년이면 30일이 통째로 사라집니다. 1년 중 한 달을 숏폼 계산대에 두고 오는 셈이에요.`;
+}
+function refundIdeas(sec){
+  const s = Math.max(sec, 30);
+  return [
+    ["책 읽기", Math.max(1, Math.round(s/75)) + "쪽"],
+    ["스쿼트", Math.max(5, Math.round(s/3)) + "개"],
+    ["친구에게 안부 연락", s >= 60 ? "1통" : "문자 1개"],
+  ];
+}
+
+function printReceipt(){
+  clearInterval(timer);
+  const sec = seconds, m = meters(), cnt = seen();
+  const now = new Date();
+  const pad = n => String(n).padStart(2,"0");
+  const yearDays = Math.round(sec * 24 * 365 / 86400 * 10) / 10; // 이 페이스로 매일 하루종일? → 아래 문구용 아님, 단순 환산은 별도
+  const rows = refundIdeas(sec).map(r=>`<div class="row"><span>· ${r[0]}</span><span>${r[1]}</span></div>`).join("");
+
+  $("receipt").innerHTML = `
+    <div class="center store">SCROLL MART 24</div>
+    <div class="center">시간 결제 전문 · 연중무휴</div>
+    <div class="center">${now.getFullYear()}-${pad(now.getMonth()+1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())} · 셀프계산대 1호기</div>
+    <hr>
+    <div class="row big"><span>[구매 내역]</span></div>
+    <div class="row"><span>숏폼 콘텐츠 ${cnt}개</span><span>${cnt ? "개당 "+Math.round(sec/Math.max(cnt,1))+"초" : "-"}</span></div>
+    <div class="row"><span>엄지 이동거리</span><span>${m.toFixed(1)}m</span></div>
+    <div class="row"><span>&nbsp;└ 농구 골대(3.05m) 환산</span><span>${(m/3.05).toFixed(1)}개 높이</span></div>
+    <hr>
+    <div class="row big"><span>합계 시간</span><span>${fmtTime(sec)}</span></div>
+    <div class="row red"><span>환불 가능 여부</span><span>불가</span></div>
+    <hr>
+    <div class="row big"><span>[적립 내역]</span></div>
+    <div class="row"><span>기억에 남은 콘텐츠</span><span>?개</span></div>
+    <div class="row"><span>내일의 나에게 남는 것</span><span>0원</span></div>
+    <div class="aiTalk"><b>■ AI 점원의 정산 코멘트</b>${aiComment(sec, m, cnt)}</div>
+    <div class="row big"><span>[같은 시간 교환권]</span></div>
+    ${rows}
+    <hr>
+    <div class="center">지나간 시간은 반품·환불되지 않습니다.<br>다음 결제 전에 이 영수증을 떠올려 주세요.</div>
+    <div class="barcode"></div>
+    <div class="center">NO.${pad(now.getHours())}${pad(now.getMinutes())}-${1000+Math.floor(Math.random()*9000)}</div>
+  `;
+  $("feedScreen").classList.add("hidden");
+  $("receiptScreen").classList.remove("hidden");
+}
+
+$("printBtn").onclick = printReceipt;
+
+$("againBtn").onclick = ()=>{
+  $("receiptScreen").classList.add("hidden");
+  $("feedScreen").classList.remove("hidden");
+  timer = setInterval(()=>{ seconds++; updateMeter(); }, 1000);
+};
+$("subBtn").onclick = ()=>{
+  const t = $("toast");
+  t.textContent = "매일 밤 10시, 오늘의 스크롤 영수증이 도착합니다 (실서비스 기능)";
+  t.style.opacity = 1;
+  setTimeout(()=> t.style.opacity = 0, 2600);
+};
+</script>
