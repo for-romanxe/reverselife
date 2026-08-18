@@ -1,0 +1,401 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>미래톡 — 사업제안서 5장</title>
+<style>
+  :root{
+    --night:#101322;
+    --panel:#161a2c;
+    --line:#2a2f4a;
+    --amber:#f5b93c;
+    --amber-ink:#231a05;
+    --mine:#2a3049;
+    --mint:#6de0c8;
+    --txt:#f2f0ea;
+    --dim:#9298b3;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+    background:#07080f;color:var(--txt);
+    display:flex;flex-direction:column;align-items:center;gap:40px;padding:40px 0;
+  }
+  body.preview .slide{zoom:.44}
+
+  /* ── 슬라이드 공통 (1600×1200 = 4:3) ── */
+  .slide{
+    width:1600px;height:1200px;flex-shrink:0;
+    background:var(--night);
+    background-image:radial-gradient(rgba(255,255,255,.045) 2px, transparent 2px);
+    background-size:44px 44px;
+    padding:70px 84px 64px;position:relative;overflow:hidden;
+    display:flex;flex-direction:column;
+  }
+  .top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:26px}
+  .logo{font-size:32px;font-weight:900;letter-spacing:-1px}
+  .logo .dot{color:var(--amber)}
+  .kicker{font-size:19px;font-weight:800;color:var(--mint);letter-spacing:4px;text-align:right;line-height:1.45}
+  h1{font-size:58px;font-weight:900;line-height:1.22;letter-spacing:-1.5px;word-break:keep-all}
+  h1 em{font-style:normal;color:var(--amber)}
+  .lead{font-size:24px;color:var(--dim);line-height:1.55;word-break:keep-all;margin-top:14px}
+  .foot{
+    position:absolute;left:84px;right:84px;bottom:38px;
+    display:flex;justify-content:space-between;align-items:center;
+    font-size:19px;color:var(--dim);border-top:1px solid var(--line);padding-top:18px;
+  }
+  .foot b{color:var(--amber);font-weight:800}
+
+  /* 재사용 블록 */
+  .box{background:var(--panel);border:1px solid var(--line);padding:24px 26px}
+  .oneliner{
+    background:var(--amber);color:var(--amber-ink);
+    font-size:26px;font-weight:800;line-height:1.5;word-break:keep-all;padding:24px 30px;
+  }
+  .num{
+    display:inline-flex;width:46px;height:46px;border-radius:50%;
+    background:var(--amber);color:var(--amber-ink);font-weight:900;font-size:23px;
+    align-items:center;justify-content:center;flex-shrink:0;
+  }
+  .dashed{
+    border:3px dashed #4a5175;background:rgba(255,255,255,.02);
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;
+    color:var(--dim);font-size:23px;font-weight:700;text-align:center;line-height:1.5;padding:20px;
+  }
+  .dashed small{font-size:18px;font-weight:400;max-width:88%}
+  .chip{
+    display:inline-block;background:var(--mint);color:var(--night);
+    font-size:18px;font-weight:800;padding:6px 16px;border-radius:30px;
+  }
+  .bubble{
+    background:var(--amber);color:var(--amber-ink);font-weight:700;
+    padding:18px 22px;border-radius:5px 22px 22px 22px;
+    font-size:22px;line-height:1.5;word-break:keep-all;width:fit-content;max-width:94%;
+  }
+  .bubble.me{background:var(--mine);color:var(--txt);border-radius:22px 5px 22px 22px;align-self:flex-end}
+  .bMeta{font-size:14px;color:var(--dim);margin-top:4px}
+  .bMeta b{color:var(--mint);font-weight:700}
+  .ck{list-style:none;display:flex;flex-direction:column;gap:7px}
+  .ck li{font-size:17.5px;line-height:1.4;color:var(--dim);word-break:keep-all;padding-left:26px;position:relative}
+  .ck li::before{content:"✓";position:absolute;left:0;color:var(--mint);font-weight:900}
+  .ck li b{color:var(--txt)}
+
+  /* ── 1장 ── */
+  .p1-grid{display:grid;grid-template-columns:1.08fr 1fr;gap:26px;flex:1;margin-top:24px;min-height:0;padding-bottom:86px}
+  .p1-left{display:flex;flex-direction:column;gap:14px}
+  .prob{display:flex;gap:16px;align-items:stretch}
+  .prob .box{flex:1;padding:20px 24px}
+  .prob b{display:block;font-size:25px;margin-bottom:6px;word-break:keep-all}
+  .prob p{font-size:20px;color:var(--dim);line-height:1.5;word-break:keep-all}
+  .p1-right{display:flex;flex-direction:column;gap:20px}
+
+  /* 실증 캡처 자리 — 형이 실제 스크린샷을 끼우는 슬롯 */
+  .capSlot{background:var(--panel);border:1px solid var(--line);padding:22px 24px;display:flex;flex-direction:column;flex:1;min-height:0}
+  .capSlot .capTitle{font-size:21px;font-weight:800;margin-bottom:4px}
+  .capSlot .capLead{font-size:17px;color:var(--dim);line-height:1.45;margin-bottom:16px;word-break:keep-all}
+  .capRow{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;flex:1}
+  .capBox{
+    border:3px dashed #4a5175;background:rgba(255,255,255,.02);border-radius:14px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+    text-align:center;padding:14px 10px;
+  }
+  .capBox .ic{font-size:30px}
+  .capBox b{font-size:17.5px;font-weight:800;line-height:1.35;word-break:keep-all}
+  .capBox span{font-size:14.5px;color:var(--dim);line-height:1.35;word-break:keep-all}
+
+  /* 통계 패널 — 단일 계열이라 범례 없이 직접 라벨 */
+  .statPanel{background:var(--panel);border:1px solid var(--line);padding:22px 24px 18px;display:flex;flex-direction:column}
+  .statPanel .sTitle{font-size:21px;font-weight:800;margin-bottom:14px;word-break:keep-all}
+  .heroRow{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:18px}
+  .hero{display:flex;align-items:center;gap:12px}
+  .hero b{font-size:52px;font-weight:900;line-height:1;color:var(--amber);letter-spacing:-2px}
+  .hero.mint b{color:var(--mint)}
+  .hero b i{font-style:normal;font-size:28px;margin-left:1px}
+  .hero span{font-size:16px;color:var(--dim);line-height:1.35;word-break:keep-all}
+  .chartCap{font-size:17px;color:var(--dim);margin-bottom:10px;word-break:keep-all}
+  .chartCap em{font-style:normal;color:var(--txt);font-weight:800}
+  .bars{display:flex;align-items:flex-end;gap:12px;height:118px;border-bottom:1px solid var(--line);padding-bottom:0}
+  .barCell{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+  .barCell .v{font-size:17px;font-weight:800;color:var(--txt);margin-bottom:5px}
+  .barCell .col{width:100%;background:var(--amber);border-radius:4px 4px 0 0}
+  .xrow{display:flex;gap:12px;margin-top:8px}
+  .xrow div{flex:1;text-align:center;font-size:15px;color:var(--dim)}
+  .src{font-size:14px;color:#6f7590;margin-top:14px;line-height:1.4}
+
+  /* ── 2장 ── */
+  .scenes{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:26px}
+  .scene .when{font-size:20px;font-weight:800;color:var(--mint);margin-bottom:10px}
+  .scene .say{
+    background:var(--panel);border:1px solid var(--line);border-left:6px solid var(--amber);
+    font-size:25px;font-weight:800;line-height:1.4;padding:22px;min-height:118px;word-break:keep-all;
+  }
+  .scene .note{font-size:20px;color:var(--dim);margin-top:11px;line-height:1.45;word-break:keep-all}
+  .failT{width:100%;border-collapse:collapse;margin-top:28px;font-size:22px}
+  .failT th{text-align:left;color:var(--mint);font-size:19px;letter-spacing:2px;padding:0 22px 10px;font-weight:800}
+  .failT td{background:var(--panel);border:1px solid var(--line);padding:16px 22px;line-height:1.45;word-break:keep-all}
+  .failT td:first-child{font-weight:800;width:330px}
+  .failT td:last-child{color:var(--dim)}
+  .punch{margin-top:26px;font-size:30px;font-weight:900;line-height:1.45;word-break:keep-all}
+  .punch em{font-style:normal;color:var(--amber)}
+
+  /* ── 3장 ── */
+  .dir{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:18px}
+  .dirCard{padding:19px 24px}
+  .dirCard .tag{font-size:18px;font-weight:800;letter-spacing:2px;margin-bottom:12px}
+  .dirCard.old .tag{color:var(--dim)}
+  .dirCard.new{border:2px solid var(--amber)}
+  .dirCard.new .tag{color:var(--amber)}
+  .flow{display:flex;align-items:center;gap:13px;font-size:25px;font-weight:900}
+  .flow .arr{color:var(--amber);font-size:28px}
+  .flow .lbl{font-size:17px;font-weight:700;color:var(--dim);display:block;margin-top:4px}
+  .dirCard .sub{margin-top:12px;font-size:18.5px;color:var(--dim);line-height:1.5;word-break:keep-all}
+  .dirCard .sub i{font-style:normal;color:var(--txt);font-weight:700}
+  .mech{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:15px}
+  .mech .box{padding:15px 16px 17px}
+  .mech b{display:block;font-size:21px;line-height:1.3;margin:8px 0 6px;word-break:keep-all}
+  .mech p{font-size:17.5px;color:var(--dim);line-height:1.42;word-break:keep-all}
+  .mech p q{color:var(--amber);font-style:normal;quotes:'"' '"'}
+  .rule{
+    margin-top:15px;border-left:8px solid var(--amber);background:var(--panel);
+    padding:17px 24px;font-size:22px;line-height:1.5;word-break:keep-all;
+  }
+  .rule b{color:var(--amber)}
+
+  /* ── 4장 ── */
+  .p4-grid{display:grid;grid-template-columns:1.12fr 1fr;gap:32px;flex:1;margin-top:22px;min-height:0;padding-bottom:84px}
+  .urlbar{
+    display:flex;align-items:center;gap:12px;background:#0b0d17;border:1px solid var(--line);
+    padding:16px 22px;font-size:22px;font-weight:700;color:var(--mint);margin-bottom:16px;
+  }
+  .urlbar span{color:var(--dim);font-weight:400}
+  .firstview{
+    background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--mint);
+    padding:16px 20px;font-size:18.5px;color:var(--dim);line-height:1.5;
+    word-break:keep-all;margin-bottom:16px;
+  }
+  .firstview b{color:var(--txt)}
+  .steps{display:flex;flex-direction:column;gap:11px}
+  .step{display:flex;gap:13px;align-items:flex-start;font-size:19.5px;line-height:1.42;word-break:keep-all}
+  .step .num{width:34px;height:34px;font-size:17px;margin-top:1px}
+  .step b{color:var(--amber)}
+  .honest{
+    margin-top:16px;background:var(--panel);border:1px solid var(--line);
+    padding:18px 22px;font-size:18px;color:var(--dim);line-height:1.5;word-break:keep-all;
+  }
+  .honest b{color:var(--txt)}
+  .p4-right{display:flex;flex-direction:column;gap:14px;min-height:0}
+  .phoneMock{
+    background:#0b0d17;border:5px solid #23273a;border-radius:30px;
+    padding:17px 18px;display:flex;flex-direction:column;gap:8px;flex:0 1 auto;min-height:0;
+  }
+  .phoneMock .bubble{font-size:19px;padding:13px 17px}
+  .proof .pTitle{font-size:19px;font-weight:800;color:var(--mint);letter-spacing:2px;margin-bottom:9px}
+
+  /* ── 5장 ── */
+  .road{display:grid;grid-template-columns:repeat(4,1fr);gap:18px;margin-top:26px}
+  .road .box{padding:22px 22px}
+  .road .box b{display:block;font-size:23px;margin:12px 0 7px;word-break:keep-all}
+  .road .box p{font-size:18.5px;color:var(--dim);line-height:1.45;word-break:keep-all}
+  .badge{font-size:16px;font-weight:800;color:var(--night);background:var(--amber);padding:4px 12px;display:inline-block}
+  .badge.later{background:var(--mine);color:var(--dim)}
+  .bizrow{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:20px}
+  .bizrow .box{padding:22px 24px}
+  .bizrow .box b{display:block;font-size:22px;margin-bottom:8px}
+  .bizrow .box p{font-size:18.5px;color:var(--dim);line-height:1.48;word-break:keep-all}
+  .closing{
+    flex:1;display:flex;flex-direction:column;justify-content:flex-end;
+    font-size:46px;font-weight:900;line-height:1.35;word-break:keep-all;padding-bottom:86px;
+  }
+  .closing em{font-style:normal;color:var(--amber)}
+</style>
+
+<!-- ═══════════ 1 / 5 · 문제·배경 ═══════════ -->
+<section class="slide" id="s1">
+  <div class="top">
+    <div class="logo">미래톡<span class="dot">.</span></div>
+    <div class="kicker">PROBLEM<br>BACKGROUND</div>
+  </div>
+  <h1>결심은 아침에 하고,<br>무너지는 건 <em>밤 11시</em>다</h1>
+  <div class="p1-grid">
+    <div class="p1-left">
+      <div class="oneliner">"매일 밤 유혹 앞에서 지는 게 너무 괴롭다"<br>→ 유혹의 순간, 미래의 내가 카톡으로 말려주는 AI 앱</div>
+      <div class="prob"><span class="num">1</span><div class="box"><b>무너지는 순간은 따로 있다</b><p>밤 11시의 침대, 결제 버튼 앞, 시험 전날 새벽 — 결심이 깨지는 시간은 정해져 있다.</p></div></div>
+      <div class="prob"><span class="num">2</span><div class="box"><b>그 시간의 도구들은 이성에게 말을 건다</b><p>계획표, 체크리스트, 스크린타임 경고. 하지만 그 시간에 깨어 있는 건 충동뿐이다.</p></div></div>
+      <div class="prob"><span class="num">3</span><div class="box"><b>후회 → 자책 → 보상심리 → 반복</b><p>자기조절 실패는 청소년·청년의 일상에서 가장 자주, 가장 조용히 반복되는 실패다.</p></div></div>
+    </div>
+    <div class="p1-right">
+      <div class="capSlot">
+        <div class="capTitle">📱 우리 팀의 실제 기록</div>
+        <div class="capLead">통계보다 먼저 설득하는 건, 우리 폰 안에 남아 있는 진짜 흔적이었습니다.</div>
+        <div class="capRow">
+          <div class="capBox"><span class="ic">🌙</span><b>새벽 주문</b><span>배달앱 결제 내역</span></div>
+          <div class="capBox"><span class="ic">🧾</span><b>후회한 소비</b><span>안 쓰고 놓인 물건</span></div>
+          <div class="capBox"><span class="ic">🏋️</span><b>끊긴 출석</b><span>헬스장 기록</span></div>
+        </div>
+      </div>
+      <div class="statPanel">
+        <div class="sTitle">"의지가 문제다"는 느낌이 아니라 숫자입니다</div>
+        <div class="heroRow">
+          <div class="hero"><b>61<i>%</i></b><span>돈 내고 등록해놓고<br>장기간 안 감</span></div>
+          <div class="hero mint"><b>30<i>%</i></b><span>포기 이유 —<br>동기부여·의지 상실</span></div>
+        </div>
+        <div class="chartCap">유료 운동시설 등록 후 <em>포기 시점 — 71%가 한 달을 못 넘긴다</em></div>
+        <div class="bars">
+          <div class="barCell"><span class="v">18%</span><div class="col" style="height:72px"></div></div>
+          <div class="barCell"><span class="v">20%</span><div class="col" style="height:80px"></div></div>
+          <div class="barCell"><span class="v">11%</span><div class="col" style="height:44px"></div></div>
+          <div class="barCell"><span class="v">22%</span><div class="col" style="height:88px"></div></div>
+        </div>
+        <div class="xrow"><div>1주 이내</div><div>2주 이내</div><div>3주 이내</div><div>1개월 이내</div></div>
+        <div class="src">출처 — 한국건강증진개발원 · 인크루트 공동조사(2015), 직장인 590명 대상</div>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>제1회 일상뒤집기 공모전 · AI 어플 아이디어 공모전</span><span>미래톡 사업제안서 <b>01</b> / 05</span></div>
+</section>
+
+<!-- ═══════════ 2 / 5 · 사용자 니즈 ═══════════ -->
+<section class="slide" id="s2">
+  <div class="top">
+    <div class="logo">미래톡<span class="dot">.</span></div>
+    <div class="kicker">USER<br>NEED</div>
+  </div>
+  <h1>말려주는 사람이 필요한데,<br><em>잔소리는 싫다</em></h1>
+  <div class="lead">타깃: 자기조절에 반복적으로 실패해본 청소년·청년 — 사실상 전원. 아래 세 장면은 프로토타입의 세 시나리오와 그대로 대응된다.</div>
+  <div class="scenes">
+    <div class="scene">
+      <div class="when">🌙 밤 10시, 침대</div>
+      <div class="say">"오늘만 운동 쉬자"</div>
+      <div class="note">이번 달 여덟 번째라는 걸 본인이 제일 잘 안다. 아는데 멈춰지지 않는다.</div>
+    </div>
+    <div class="scene">
+      <div class="when">🌙 새벽 1시, 결제 직전</div>
+      <div class="say">"이건 진짜 필요한 거야"</div>
+      <div class="note">장바구니의 12만원. 스스로를 설득하는 중이다.</div>
+    </div>
+    <div class="scene">
+      <div class="when">🌙 밤 11시, 과제 앞</div>
+      <div class="say">"내일 아침에 일찍 일어나서 하자"</div>
+      <div class="note">이 말이 거짓말인 걸 누구보다 잘 아는 사람이 자기 자신이다.</div>
+    </div>
+  </div>
+  <table class="failT">
+    <tr><th>기존 해결책</th><th>실패하는 이유</th></tr>
+    <tr><td>습관 앱 (체크리스트형)</td><td>유혹의 순간에는 열어보지 않는다. 어기는 순간 죄책감 → 삭제.</td></tr>
+    <tr><td>차단·스크린타임 앱 (강제형)</td><td>우회하거나 끄면 그만. "적"이 되는 순간 진다.</td></tr>
+    <tr><td>부모님·친구의 잔소리</td><td>타인의 말은 방어부터 하게 된다.</td></tr>
+  </table>
+  <div class="punch">공통 실패 원인: 전부 <em>"남"</em>이 말한다.<br>유혹 앞의 나에게 유일하게 통하는 목소리는, 그 결과를 직접 겪을 <em>"나 자신"</em>이다.</div>
+  <div class="foot"><span>제1회 일상뒤집기 공모전 · AI 어플 아이디어 공모전</span><span>미래톡 사업제안서 <b>02</b> / 05</span></div>
+</section>
+
+<!-- ═══════════ 3 / 5 · 서비스 컨셉 ═══════════ -->
+<section class="slide" id="s3">
+  <div class="top">
+    <div class="logo">미래톡<span class="dot">.</span></div>
+    <div class="kicker">SERVICE<br>CONCEPT</div>
+  </div>
+  <h1>미래의 나는 답을 알고 있다.<br><em>이제 말도 건다</em></h1>
+  <div class="dir">
+    <div class="box dirCard old">
+      <div class="tag">기존 — 편지 보관형 · 체크리스트형 · 차단형</div>
+      <div class="flow"><span>지금의 나</span><span class="arr">→</span><span>미래<span class="lbl">FutureMe · 시공편지 — 편지 보관함</span></span></div>
+      <div class="sub"><i>습관 체크리스트 앱</i> 규칙이 명령한다 · <i>차단·스크린타임 앱</i> 강제한다, 그래서 적이 된다.<br>공통점 — 유혹의 순간에는 아무 일도 일어나지 않는다.</div>
+    </div>
+    <div class="box dirCard new">
+      <div class="tag">미래톡 — 방향을 뒤집었다</div>
+      <div class="flow"><span>미래의 나</span><span class="arr">→</span><span>지금의 나<span class="lbl">유혹의 순간, 실시간 개입</span></span></div>
+      <div class="sub"><i>내가 나를 설득한다</i> 명령이 아니라 대화 · <i>협상 상대가 된다</i> 적이 아니라 편.<br>결과를 이미 살아본 내가, 무너지는 바로 그 순간 먼저 말을 건다.</div>
+    </div>
+  </div>
+  <div class="mech">
+    <div class="box"><span class="chip">먼저</span><b>미래의 나가<br>먼저 말 건다</b><p>홈에 머물면 알림이 먼저 도착 — 누르면 <q>미래의 내가 먼저 연락했어</q>로 시작</p></div>
+    <div class="box"><span class="chip">시점</span><b>유혹마다<br>다른 미래</b><p>벼락치기는 내일 아침 6시, 충동구매는 한 달 뒤, 운동은 3개월 뒤의 나</p></div>
+    <div class="box"><span class="chip">편지</span><b>미리 쓰는<br>후회 편지</b><p>결제 직전, 한 달 뒤의 내가 그 날짜로 서명해 보낸 후회 편지가 도착</p></div>
+    <div class="box"><span class="chip">협상</span><b>단계 낮추기<br>협상</b><p>거절하면 요구를 낮춘다 — 30분 → 10분 → <q>그럼 파일만 열어</q></p></div>
+    <div class="box"><span class="chip">귀환</span><b>진짜로<br>돌아온다</b><p>끝까지 거절해도 다음 날 아침 알람과 함께 어젯밤 대화를 인용하며 재방문</p></div>
+    <div class="box"><span class="chip">양방향</span><b>말리기도<br>밀기도 한다</b><p>충동구매는 <i>하려는 걸</i> 말리고, 운동·벼락치기는 <i>안 하려는 걸</i> 민다</p></div>
+    <div class="box"><span class="chip">변주</span><b>같은 말이<br>두 번 오지 않는다</b><p>첫인사·설득·마지막 한마디가 여러 벌 — 대본이 아니라 사람처럼</p></div>
+    <div class="box"><span class="chip">되받기</span><b>숫자로 답하면<br>숫자로 되받는다</b><p>미룬 횟수로 대화가 갈리고, 89,000원은 <q>시급 1만 원이면 9시간</q>으로 환산</p></div>
+  </div>
+  <div class="rule"><b>디자인 원칙 — 잔소리 금지.</b> 미래의 나는 봐주지 않는다. 대신 혼내지도 않는다 — 이미 겪어봤기 때문에, 구체적이고, 마지막엔 늘 현실적인 절충안을 내민다.</div>
+  <div class="foot"><span>제1회 일상뒤집기 공모전 · AI 어플 아이디어 공모전</span><span>미래톡 사업제안서 <b>03</b> / 05</span></div>
+</section>
+
+<!-- ═══════════ 4 / 5 · 프로토타입 ═══════════ -->
+<section class="slide" id="s4">
+  <div class="top">
+    <div class="logo">미래톡<span class="dot">.</span></div>
+    <div class="kicker">PROTOTYPE<br>SCENARIO</div>
+  </div>
+  <h1>지금 바로, 미래의 나와<br><em>대화해볼 수 있습니다</em></h1>
+  <div class="p4-grid">
+    <div>
+      <div class="urlbar">🔗 <span>체험 URL —</span> [배포 URL 기입]</div>
+      <div class="firstview"><b>첫 화면부터 설득이 시작됩니다.</b> PC로 열면 왼쪽에 심사위원용 패널 — 공모전 배지, 한 줄 컨셉, 체험 3단계, FutureMe와의 방향 비교. 오른쪽에는 실제 휴대폰처럼 보이는 앱 목업이 놓여, 링크를 연 순간 무엇을 하는 앱인지 설명 없이 전달됩니다.</div>
+      <div class="steps">
+        <div class="step"><span class="num">1</span><span>홈에 잠깐 머물면 <b>미래의 나에게서 알림이 먼저 도착</b> — 누르면 그대로 대화 시작</span></div>
+        <div class="step"><span class="num">2</span><span>유혹 선택 — 충동구매 / 운동 미루기 / 벼락치기. 카드마다 <b>"3개월 뒤의 나 접속 중"</b>처럼 상대가 이미 대기 중이라는 표시</span></div>
+        <div class="step"><span class="num">3</span><span>상황 2가지 입력 → 입력 내용이 반영된 <b>1인칭 메시지</b>가 타이핑되며 도착</span></div>
+        <div class="step"><span class="num">4</span><span>충동구매 → <b>미리 쓰는 후회 편지</b>가 한 달 뒤 날짜로 서명되어 도착</span></div>
+        <div class="step"><span class="num">5</span><span>답장 선택 → 거절하면 <b>재설득 라운드</b> (요구 단계 낮추기)</span></div>
+        <div class="step"><span class="num">6</span><span>끝까지 거절 시 <b>⏩ 다음 날 아침 6시로 건너뛰기</b> — 알람과 함께 귀환, 여기서도 "지금 할게 / 5분만 더" 선택</span></div>
+        <div class="step"><span class="num">7</span><span>"다른 유혹도 상담하기" → 홈 복귀. <b>다시 들어가면 대사가 달라져 있다</b></span></div>
+      </div>
+      <div class="honest"><b>구현 설명 —</b> 본 프로토타입은 클로드(Claude)로 제작한 단일 HTML이며, 메시지는 데모 안정성과 API 키 비노출을 위해 상황·입력값 기반 시뮬레이션으로 동작합니다. 실서비스는 동일 구조에 LLM API를 연결해 사용자의 실제 맥락(미룬 횟수·과거 대화·소비 패턴)을 반영한 개인화 메시지를 생성합니다 — 지금의 AI로 즉시 구현 가능한 수준입니다.</div>
+    </div>
+    <div class="p4-right">
+      <div class="phoneMock">
+        <span class="chip" style="align-self:center">아침 6:00 — ⏰ 알람이 울립니다</span>
+        <div><div class="bubble">일어나. 나야.<br>어젯밤에 말한 대로 왔어.</div><div class="bMeta"><b>미래에서 수신</b> · 오전 6:00</div></div>
+        <div><div class="bubble">어젯밤의 너: "아니. 그냥 잘 거야."<br>…기억나지? 나 기억력 좋다고 했잖아.</div><div class="bMeta"><b>미래에서 수신</b> · 오전 6:00</div></div>
+        <div style="display:flex;flex-direction:column"><div class="bubble me">…알았어. 일어난다.</div><div class="bMeta" style="align-self:flex-end">오전 6:01</div></div>
+        <div><div class="bubble">그래. 어젯밤의 나는 약속을 어겼지만,<br>아침의 네가 지켰네.</div><div class="bMeta"><b>미래에서 수신</b> · 오전 6:01</div></div>
+      </div>
+      <div class="proof">
+        <div class="pTitle">완성도 근거 — 실제 구현된 디테일</div>
+        <ul class="ck">
+          <li>글자 수에 비례해 <b>타이핑 시간이 달라진다</b> — 긴 말은 실제로 더 오래 쓰는 것처럼 보인다</li>
+          <li>채팅 시각·미래 날짜는 <b>접속한 순간을 기준으로 계산</b>되고, 아침 장면 동안에는 06:00으로 고정된다</li>
+          <li>가격은 천 단위 콤마로 자동 정리되고, <b>비워둔 채 진행해도 문장이 깨지지 않는다</b></li>
+          <li>말풍선마다 <b>"미래에서 수신"</b>, 상단에 <b>"● 미래에서 접속 중"</b> — 컨셉이 화면 구석까지 유지된다</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="foot"><span>제1회 일상뒤집기 공모전 · AI 어플 아이디어 공모전</span><span>미래톡 사업제안서 <b>04</b> / 05</span></div>
+</section>
+
+<!-- ═══════════ 5 / 5 · 사업·임팩트 ═══════════ -->
+<section class="slide" id="s5">
+  <div class="top">
+    <div class="logo">미래톡<span class="dot">.</span></div>
+    <div class="kicker">BUSINESS<br>&amp; IMPACT</div>
+  </div>
+  <h1><em>의지력을 빌려주는</em> 앱</h1>
+  <div class="lead">미래톡은 습관을 감시하는 앱이 아니라, 무너지는 순간에 잠깐 빌려 쓸 의지력을 건네는 앱입니다. 개인 루틴에서 교육 시장으로 확장할 수 있습니다.</div>
+  <div class="road">
+    <div class="box"><span class="badge">데모 구현 완료</span><b>먼저 말 거는<br>미래의 나</b><p>지정한 유혹 시간대(밤 11시 등)에 미래의 나가 푸시로 먼저 개입. 유혹이 오기 전에 도착한다.</p></div>
+    <div class="box"><span class="badge later">2단계</span><b>패턴 학습</b><p>"그거 지금도 써?" 후속 질문의 답으로 나만의 충동 패턴을 학습 — 점점 나를 잘 아는 목소리가 된다.</p></div>
+    <div class="box"><span class="badge later">3단계</span><b>승리 기록</b><p>참아낸 순간이 쌓이면 미래의 나의 말투가 밝아진다. 죄책감이 아니라 관계로 동기부여.</p></div>
+    <div class="box"><span class="badge later">4단계</span><b>협상 조건 기억</b><p>"5분만"이라고 합의하면 정확히 5분 뒤에 돌아온다. 끄거나 미룰 수 없는 알람.</p></div>
+  </div>
+  <div class="bizrow">
+    <div class="box"><b>💰 수익 모델</b><p>기본 무료 + 프리미엄 구독(무제한 상황 등록·장기 패턴 리포트) · 학교/기관 자기조절 교육 프로그램 제휴</p></div>
+    <div class="box"><b>🌱 사회적 임팩트</b><p>죄책감 기반 도구는 자존감을 깎는다. 미래톡은 "실패한 나를 혼내는" 대신 "미래의 나와 협상하는" 경험으로, 자기비난 없이 자기조절을 연습하게 한다.</p></div>
+    <div class="box"><b>🏆 공모전 적합성</b><p>청소년·청년의 일상 문제를 AI로 해결하고, 프로토타입이 링크 하나로 즉시 시연된다 — 온라인 공감 확산 가능성이 높다.</p></div>
+  </div>
+  <div class="closing">익숙함을 뒤집으면 새로운 가능성이 보인다.<br>우리는 습관 앱에서 체크리스트를 빼고,<br><em>나를 넣었다.</em></div>
+  <div class="foot"><span>[팀명] — 제1회 일상뒤집기 공모전 출품작</span><span>미래톡 사업제안서 <b>05</b> / 05</span></div>
+</section>
+
+<script>
+/* 기본은 화면에서 보기 좋은 축소판. 캡처할 때는 ?full 을 붙여 원본 크기(1600×1200)로 연다.
+   ?only=s3 처럼 지정하면 그 장만 표시 — 헤드리스 캡처용 */
+const only = location.search.match(/only=(s\d)/);
+if(only){
+  document.body.style.padding = "0";
+  document.body.style.gap = "0";
+  document.querySelectorAll(".slide").forEach(s => { if(s.id !== only[1]) s.style.display = "none"; });
+}else if(!location.search.includes("full")){
+  document.body.classList.add("preview");
+}
+</script>
