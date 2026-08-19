@@ -453,7 +453,7 @@ function scheduleNotif(){
     $("notifMsg").innerHTML = `<b>${s.name}</b> ${pick(s.notif)}`;
     $("notif").classList.add("on");
     notifHide = setTimeout(hideNotif, 9000);
-  }, 5200);
+  }, 3000);   /* 홈 화면을 한 번 훑을 시간은 주되, 심사위원이 카드를 먼저 눌러 알림을 놓치지 않도록 */
 }
 function hideNotif(){ clearTimeout(notifHide); $("notif").classList.remove("on"); }
 function cancelNotif(){ clearTimeout(notifTimer); hideNotif(); }
